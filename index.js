@@ -3,6 +3,7 @@ const app = express()
 const port = 4000
 const { User } = require("./models/User");
 //const bodyParser = require('body-parser');
+const cookieParser = require('cookie-parser');
 const config = require('./config/key')
 
 //application/x-www-form-urlencoded 이런식으로 된 데이터를 가져와서 분석해주는 코드
@@ -13,6 +14,8 @@ app.use(express.urlencoded({extended: true}));
 app.use(express.json());
 //app.use(bodyParser.json());
 
+//cookieParser 사용을 위함.
+app.use(cookieParser());
 
 
 const mongoose = require('mongoose')
@@ -57,12 +60,24 @@ app.post('/login', (req, res) => {
           message: "비밀번호가 틀렸습니다." 
         })
       }
-      //비밀번호까지 맞다면 Token생성
-      // userInfo.generateToken( (err, userInfo) => {
 
-      // })
+      //비밀번호까지 맞다면 Token생성
+      userInfo.generateToken( (err, userInfo) => {
+        if(err) return res.status(400).send(err);
+        
+        //토큰을 쿠키, 로컬스토리지, 세션 등에 저장한다.
+        res.cookie("x_auth", res.token)
+        .status(200)
+        .json({
+          loginSuccess: true,
+          userId: userInfo._id
+        })
+        
+      })
 
     })
+
+
 
   })
 })
