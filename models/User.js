@@ -65,7 +65,9 @@ userSchema.methods.comparePassword = function(plainPassword, callback){
     })
 }
 
-// userSchema.methods,generateToken = function
+userSchema.methods,generateToken = function(callback){
+    // jsonwebtoken을 이용해서 token을 생성하기
+}
 
 const User = mongoose.model('User', userSchema)
 
