@@ -40,7 +40,7 @@ app.post('/register', (req, res) =>{
 
 
 app.post('/login', (req, res) => {
-  //요청된 이메일을 DB에서 이미 존재하는지 확인
+  //요청된 이메일을 DB에서 해당 이메일이 존재하는지 확인
   //findOne()mongoose제공 메서드
   User.findOne({ email: req.body.email }, (err, userInfo) => {
     if(!userInfo){
@@ -49,26 +49,22 @@ app.post('/login', (req, res) => {
         message: "해당하는 유저가 없습니다."
       })
     }
-  //요청된 이메일이 DB에 있다면 비밀번호가 맞는 비밀번호 인지 확인.
-  userInfo.comparePassword(req.body.password, (err, isMatch) => {
-    if(!isMatch){ 
-      return res.json({ 
-        loginSuccess: false, 
-        message: "비밀번호가 틀렸습니다." 
-      })
-    }
-    //비밀번호까지 맞다면 Token생성
-    // userInfo.generateToken( (err, userInfo) => {
+    //요청된 이메일이 DB에 있다면 비밀번호가 맞는 비밀번호 인지 확인.
+    userInfo.comparePassword(req.body.password, (err, isMatch) => {
+      if(!isMatch){ 
+        return res.json({ 
+          loginSuccess: false, 
+          message: "비밀번호가 틀렸습니다." 
+        })
+      }
+      //비밀번호까지 맞다면 Token생성
+      // userInfo.generateToken( (err, userInfo) => {
 
-    // })
+      // })
 
-  })
-
-
+    })
 
   })
-
-
 })
 
 app.listen(port, () => {
