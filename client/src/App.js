@@ -15,16 +15,13 @@ import Footer from './components/views/Footer/Footer';
 function App() {
   return (
     <Router>
-      <div>
-        
-
-
+      <>
         <Routes>
           <Route exact path="/" element = {<LandingPage />} />
           <Route exact path="/login" element = {<LoginPage />} />
           <Route exact path="/register" element = {<RegisterPage />} />
         </Routes>
-      </div>
+      </>
     </Router>
   );
 }
