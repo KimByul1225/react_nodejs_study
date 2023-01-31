@@ -1,9 +1,11 @@
 import React, { useState } from 'react';
-import Axios from 'axios';
 import { useDispatch } from 'react-redux';
+import { useNavigate } from 'react-router-dom';
+import { loginUser } from '../../../_actions/user_action';
 
 function LoginPage() {
     const dispatch = useDispatch();
+    const navigate = useNavigate();
     const [email, setEmail] = useState("");
     const [password, sePassword] = useState("");
 
@@ -23,11 +25,16 @@ function LoginPage() {
             email: email,
             password: password,
         }
-        //dispatch(loginUser(body))
-        // Axios.post('/api/user/login', body)
-        // .then(response => {
+        dispatch(loginUser(body))
+            .then(response => {
+                    if(response.payload.loginSuccess){
+                        navigate('/');
+                    }else{
+                        alert('erroe');
+                    }
+                }
 
-        // })
+            )
     }
 
     return (
