@@ -40,5 +40,5 @@ function LandingPage() {
   )
 }
 
-export default  Auth(LandingPage, false);
+export default  Auth(LandingPage, null);
 
